@@ -1,3 +1,11 @@
+
+import javax.swing.table.DefaultTableModel;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.sql.PreparedStatement;
+import java.sql.Connection;
+import javax.swing.JOptionPane;
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
@@ -9,11 +17,14 @@
  */
 public class Form_Petugas extends javax.swing.JFrame {
 
+    private DefaultTableModel model;
     /**
      * Creates new form Form_Petugas
      */
     public Form_Petugas() {
         initComponents();
+        loadData();
+        kosong();
     }
 
     /**
@@ -30,24 +41,24 @@ public class Form_Petugas extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jTextField2 = new javax.swing.JTextField();
+        txtidpetugas = new javax.swing.JTextField();
+        txtnamapetugas = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        txtalamatpetugas = new javax.swing.JTextArea();
         jLabel5 = new javax.swing.JLabel();
-        jTextField3 = new javax.swing.JTextField();
+        txtemailpetugas = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
-        jTextField4 = new javax.swing.JTextField();
+        txttelponpetugas = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
-        jButton5 = new javax.swing.JButton();
-        jButton6 = new javax.swing.JButton();
+        tabelpetugas = new javax.swing.JTable();
+        btnaddnew = new javax.swing.JButton();
+        btnsave = new javax.swing.JButton();
+        btnupdate = new javax.swing.JButton();
+        btndelete = new javax.swing.JButton();
+        btncancel = new javax.swing.JButton();
+        btnclose = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -83,23 +94,23 @@ public class Form_Petugas extends javax.swing.JFrame {
 
         jLabel3.setText("Nama Petugas");
 
-        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+        txtidpetugas.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField1ActionPerformed(evt);
+                txtidpetugasActionPerformed(evt);
             }
         });
 
         jLabel4.setText("Alamat Petugas");
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane1.setViewportView(jTextArea1);
+        txtalamatpetugas.setColumns(20);
+        txtalamatpetugas.setRows(5);
+        jScrollPane1.setViewportView(txtalamatpetugas);
 
         jLabel5.setText("E-Mail");
 
-        jTextField3.addActionListener(new java.awt.event.ActionListener() {
+        txtemailpetugas.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField3ActionPerformed(evt);
+                txtemailpetugasActionPerformed(evt);
             }
         });
 
@@ -107,7 +118,7 @@ public class Form_Petugas extends javax.swing.JFrame {
 
         jLabel7.setText("Maksimal 15 Digit");
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tabelpetugas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -118,29 +129,54 @@ public class Form_Petugas extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane2.setViewportView(jTable1);
+        tabelpetugas.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tabelpetugasMouseClicked(evt);
+            }
+        });
+        jScrollPane2.setViewportView(tabelpetugas);
 
-        jButton1.setText("Add New");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btnaddnew.setText("Add New");
+        btnaddnew.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btnaddnewActionPerformed(evt);
             }
         });
 
-        jButton2.setText("Save");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        btnsave.setText("Save");
+        btnsave.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                btnsaveActionPerformed(evt);
             }
         });
 
-        jButton3.setText("Update");
+        btnupdate.setText("Update");
+        btnupdate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnupdateActionPerformed(evt);
+            }
+        });
 
-        jButton4.setText("Delete");
+        btndelete.setText("Delete");
+        btndelete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btndeleteActionPerformed(evt);
+            }
+        });
 
-        jButton5.setText("Cancel");
+        btncancel.setText("Cancel");
+        btncancel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btncancelActionPerformed(evt);
+            }
+        });
 
-        jButton6.setText("Close");
+        btnclose.setText("Close");
+        btnclose.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btncloseActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -158,12 +194,12 @@ public class Form_Petugas extends javax.swing.JFrame {
                             .addComponent(jLabel5))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jTextField3)
-                            .addComponent(jTextField1)
-                            .addComponent(jTextField2)
+                            .addComponent(txtemailpetugas)
+                            .addComponent(txtidpetugas)
+                            .addComponent(txtnamapetugas)
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 330, Short.MAX_VALUE)
                             .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(txttelponpetugas, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(jLabel7))))
                     .addGroup(jPanel2Layout.createSequentialGroup()
@@ -171,17 +207,17 @@ public class Form_Petugas extends javax.swing.JFrame {
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnaddnew, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnsave, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnupdate, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btndelete, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btncancel, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(btnclose, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(9, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
@@ -190,11 +226,11 @@ public class Form_Petugas extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel2)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtidpetugas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtnamapetugas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -204,23 +240,23 @@ public class Form_Petugas extends javax.swing.JFrame {
                         .addComponent(jLabel4)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtemailpetugas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel5))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txttelponpetugas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel6)
                     .addComponent(jLabel7))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 231, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2)
-                    .addComponent(jButton3)
-                    .addComponent(jButton4)
-                    .addComponent(jButton5)
-                    .addComponent(jButton6))
+                    .addComponent(btnaddnew)
+                    .addComponent(btnsave)
+                    .addComponent(btnupdate)
+                    .addComponent(btndelete)
+                    .addComponent(btncancel)
+                    .addComponent(btnclose))
                 .addContainerGap())
         );
 
@@ -228,22 +264,249 @@ public class Form_Petugas extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+    
+    private void loadData(){
+        //Membuat Model
+        model = new DefaultTableModel();
+        
+        //Menghapus Seluruh Data
+        model.getDataVector().removeAllElements();
+        
+        //Memberi Tahu Bahwa Data Telah Kosong
+        model.fireTableDataChanged();
+        
+        tabelpetugas.setModel(model);
+        model.addColumn("ID Petugas");
+        model.addColumn("Nama Petugas");
+        model.addColumn("Alamat Petugas");
+        model.addColumn("Email");
+        model.addColumn("Telpon");
+        
+        try{
+            
+        String sql = "SELECT * FROM tblpetugas";
+        
+        Connection c = Koneksi.getKoneksi();
+        Statement s = c.createStatement();
+        ResultSet r = s.executeQuery(sql);
+        
+        while(r.next()){
+        //Lakukan Penelusuran Baris
+        model.addRow(new Object[]{
+            r.getString(1),
+            r.getString(2),
+            r.getString(3),
+            r.getString(4),
+            r.getString(5)
+        });
+    }
+    tabelpetugas.setModel(model);
+    }catch(SQLException e){
+        System.out.println("Terjadi Error");
+    }
+}
+    private void kosong(){
+        txtidpetugas.setText(null);
+        txtnamapetugas.setText(null);
+        txtalamatpetugas.setText(null);
+        txtemailpetugas.setText(null);
+        txttelponpetugas.setText(null);
+    }
+    private void txtidpetugasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtidpetugasActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField1ActionPerformed
+    }//GEN-LAST:event_txtidpetugasActionPerformed
 
-    private void jTextField3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField3ActionPerformed
+    private void txtemailpetugasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtemailpetugasActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField3ActionPerformed
+    }//GEN-LAST:event_txtemailpetugasActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void btnaddnewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnaddnewActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
+        String id = txtidpetugas.getText();
+        String nama = txtnamapetugas.getText();
+        String alamat = txtalamatpetugas.getText();
+        String email = txtemailpetugas.getText();
+        String telpon = txttelponpetugas.getText();
+        
+        
+        if ("".equals(id) ||
+            "".equals(nama) ||
+            "".equals(alamat) ||
+            "".equals(email) ||
+            "".equals(telpon))
+        {
+            JOptionPane.showMessageDialog(this,
+                    "Harap Lengkapi Data",
+                    "Error", JOptionPane.WARNING_MESSAGE);  
+        } else {
+            
+            try{
+                Connection c = Koneksi.getKoneksi();
+                String sql = "INSERT INTO tblpetugas VALUES (?, ?, ?, ?, ?)";
+                PreparedStatement p = c.prepareStatement(sql);
+                
+                p.setString(1, id);
+                p.setString(2, nama);
+                p.setString(3, alamat);
+                p.setString(4, email);
+                p.setString(5, telpon);
+                
+                p.executeUpdate();
+                p.close();
+                
+                JOptionPane.showMessageDialog(null,
+                        "Data Berhasil diSimpan");
+                
+            }catch(SQLException e){
+                JOptionPane.showMessageDialog(this,
+                        e.getMessage());
+            }finally{
+                loadData();
+                kosong();
+            }
+        }
+    }//GEN-LAST:event_btnaddnewActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void btnsaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnsaveActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_btnsaveActionPerformed
+
+    private void btncancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btncancelActionPerformed
+        // TODO add your handling code here:
+        kosong();
+    }//GEN-LAST:event_btncancelActionPerformed
+
+    private void tabelpetugasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabelpetugasMouseClicked
+        // TODO add your handling code here:
+        int baris = tabelpetugas.getSelectedRow();
+        
+        if(baris == -1){
+            
+            return;
+        }
+        
+        String id = tabelpetugas.getValueAt(baris, 0).toString();
+        txtidpetugas.setText(id);
+        String nama = tabelpetugas.getValueAt(baris, 1).toString();
+        txtnamapetugas.setText(nama);
+        String alamat = tabelpetugas.getValueAt(baris, 2).toString();
+        txtalamatpetugas.setText(alamat);
+        String email = tabelpetugas.getValueAt(baris, 3).toString();
+        txtemailpetugas.setText(email);
+        String telpon = tabelpetugas.getValueAt(baris, 4).toString();
+        txttelponpetugas.setText(telpon);
+    }//GEN-LAST:event_tabelpetugasMouseClicked
+
+    private void btndeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btndeleteActionPerformed
+        // TODO add your handling code here:
+        int i = tabelpetugas.getSelectedRow();
+        
+        if(i == -1){
+            JOptionPane.showMessageDialog(this,
+                    "Harap Pilih Data Terlebih Dahulu",
+                    "Error", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        
+        String IDPetugas = (String) model.getValueAt(i, 0);
+        
+        try{
+            Connection c = Koneksi.getKoneksi();
+            
+            String sql = "DELETE FROM tblpetugas WHERE IDPetugas = ?";
+            
+            PreparedStatement p = c.prepareStatement(sql);
+            p.setString(1, IDPetugas);
+            p.executeUpdate();
+            p.close();
+            
+            JOptionPane.showMessageDialog(null, "Data Berhasil diHapus");
+        } catch(SQLException e) {
+                    JOptionPane.showMessageDialog(null, "Terjadi Error" + e.getMessage());
+        } finally {
+            loadData();
+            kosong();
+        }
+    }//GEN-LAST:event_btndeleteActionPerformed
+
+    private void btncloseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btncloseActionPerformed
+        // TODO add your handling code here:
+        dispose();
+    }//GEN-LAST:event_btncloseActionPerformed
+
+    private void btnupdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnupdateActionPerformed
+        // TODO add your handling code here:
+        int i = tabelpetugas.getSelectedRow();
+        
+        if(i == -1){
+            JOptionPane.showMessageDialog(this,
+                    "Harap Pilih Data Terlebih Dahulu",
+                    "Error",
+                    JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        
+        String id = (String) model.getValueAt(i, 0);
+        String nama = txtnamapetugas.getText();
+        String alamat = txtalamatpetugas.getText();
+        String email = txtemailpetugas.getText();
+        String telpon = txttelponpetugas.getText();
+        
+        try{
+            Connection c = Koneksi.getKoneksi();
+            
+            String sql = "UPDATE tblpetugas SET NamaPetugas = ?, Alamat = ?, Email = ?, Telpon = ? WHERE IDPetugas = ?";
+                    
+            PreparedStatement p = c.prepareStatement(sql);
+            
+            p.setString(1, nama);
+            p.setString(2, alamat);
+            p.setString(3, email);
+            p.setString(4, telpon);
+            p.setString(5, id);
+            p.executeUpdate();
+            p.close();
+            
+            JOptionPane.showMessageDialog(null, "Data Berhasil diUbah");
+        } catch(SQLException e) {
+                    JOptionPane.showMessageDialog(null, "Terjadi Error" + e.getMessage());
+        } finally {
+            loadData();
+            kosong();
+        }
+    }                                       
+
+    private void btnhapusActionPerformed(java.awt.event.ActionEvent evt) {                                         
+        // TODO add your handling code here:
+        int i = tabelpetugas.getSelectedRow();
+        
+        if(i == -1){
+            JOptionPane.showMessageDialog(this,
+                    "Harap Pilih Data Terlebih Dahulu",
+                    "Error", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        
+        String id = (String) model.getValueAt(i, 0);
+        
+        try{
+            Connection c = Koneksi.getKoneksi();
+            
+            String sql = "DELETE FROM tblpetugas WHERE ID = ?";
+            
+            PreparedStatement p = c.prepareStatement(sql);
+            p.setString(1, id);
+            p.executeUpdate();
+            p.close();
+            
+            JOptionPane.showMessageDialog(null, "Data Berhasil diHapus");
+        } catch(SQLException e) {
+                    JOptionPane.showMessageDialog(null, "Terjadi Error" + e.getMessage());
+        } finally {
+            loadData();
+            kosong();
+        }
+    }//GEN-LAST:event_btnupdateActionPerformed
 
     /**
      * @param args the command line arguments
@@ -281,12 +544,12 @@ public class Form_Petugas extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
-    private javax.swing.JButton jButton6;
+    private javax.swing.JButton btnaddnew;
+    private javax.swing.JButton btncancel;
+    private javax.swing.JButton btnclose;
+    private javax.swing.JButton btndelete;
+    private javax.swing.JButton btnsave;
+    private javax.swing.JButton btnupdate;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -298,11 +561,11 @@ public class Form_Petugas extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTextArea jTextArea1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField4;
+    private javax.swing.JTable tabelpetugas;
+    private javax.swing.JTextArea txtalamatpetugas;
+    private javax.swing.JTextField txtemailpetugas;
+    private javax.swing.JTextField txtidpetugas;
+    private javax.swing.JTextField txtnamapetugas;
+    private javax.swing.JTextField txttelponpetugas;
     // End of variables declaration//GEN-END:variables
 }
