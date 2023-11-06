@@ -278,7 +278,7 @@ public class Form_Petugas extends javax.swing.JFrame {
         tabelpetugas.setModel(model);
         model.addColumn("ID Petugas");
         model.addColumn("Nama Petugas");
-        model.addColumn("Alamat Petugas");
+        model.addColumn("Alamat");
         model.addColumn("Email");
         model.addColumn("Telpon");
         
@@ -312,6 +312,7 @@ public class Form_Petugas extends javax.swing.JFrame {
         txtemailpetugas.setText(null);
         txttelponpetugas.setText(null);
     }
+    
     private void txtidpetugasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtidpetugasActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtidpetugasActionPerformed
