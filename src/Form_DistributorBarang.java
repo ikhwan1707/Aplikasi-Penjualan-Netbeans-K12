@@ -54,7 +54,6 @@ public class Form_DistributorBarang extends javax.swing.JFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         tabeldistributor = new javax.swing.JTable();
         btnaddnewdistributor = new javax.swing.JButton();
-        btnsavedistributor = new javax.swing.JButton();
         btnupdatedistributor = new javax.swing.JButton();
         btndeletedistributor = new javax.swing.JButton();
         btncanceldistributor = new javax.swing.JButton();
@@ -165,15 +164,7 @@ public class Form_DistributorBarang extends javax.swing.JFrame {
                 btnaddnewdistributorActionPerformed(evt);
             }
         });
-        jPanel2.add(btnaddnewdistributor, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 421, 87, -1));
-
-        btnsavedistributor.setText("Save");
-        btnsavedistributor.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnsavedistributorActionPerformed(evt);
-            }
-        });
-        jPanel2.add(btnsavedistributor, new org.netbeans.lib.awtextra.AbsoluteConstraints(99, 421, 69, -1));
+        jPanel2.add(btnaddnewdistributor, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 421, 160, -1));
 
         btnupdatedistributor.setText("Update");
         btnupdatedistributor.addActionListener(new java.awt.event.ActionListener() {
@@ -329,10 +320,6 @@ public class Form_DistributorBarang extends javax.swing.JFrame {
             }
         }
     }//GEN-LAST:event_btnaddnewdistributorActionPerformed
-
-    private void btnsavedistributorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnsavedistributorActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnsavedistributorActionPerformed
 
     private void txtkotaasaldistributorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtkotaasaldistributorActionPerformed
         // TODO add your handling code here:
@@ -491,7 +478,6 @@ public class Form_DistributorBarang extends javax.swing.JFrame {
     private javax.swing.JButton btncanceldistributor;
     private javax.swing.JButton btnclosedistributor;
     private javax.swing.JButton btndeletedistributor;
-    private javax.swing.JButton btnsavedistributor;
     private javax.swing.JButton btnupdatedistributor;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
